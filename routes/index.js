@@ -29,9 +29,15 @@ router.get('/', function(req, res) {
       const time = new Date(response.features[0].properties.time);
       const long = response.features[0].geometry.coordinates[0];
       const latt = response.features[0].geometry.coordinates[1];
+      console.log(response.features.length);
+
+      let tremors = [];
+      tremors.push({title: title, mag: mag, time: time, long: long, latt: latt})
+      // res.render("json",tremors);
+      res.send(tremors);
 
       // res.send({title: title, mag: mag, time: time, long: long, latt: latt} ); // Test I see data
-      res.render("json", {json: {title: title, mag: mag, time: time, long: long, latt: latt} })
+      // res.render("json", {json: {title: title, mag: mag, time: time, long: long, latt: latt} })
 
       // res.send(JSON.stringify( {mag: feat.mag, long: long, latt: latt} ));
       // res.send(response);
