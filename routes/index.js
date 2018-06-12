@@ -24,15 +24,24 @@ router.get('/', function(req, res) {
       // res.render('json', {json: response.features}); // Testing render & json.pug
 
       // Getting the specific fields from the first record to establish access to data
+      /* Testing section to get fields
       const title = response.features[0].properties.title;
       const mag = response.features[0].properties.mag;
       const time = new Date(response.features[0].properties.time);
       const long = response.features[0].geometry.coordinates[0];
       const latt = response.features[0].geometry.coordinates[1];
       console.log(response.features.length);
+      */
 
       let tremors = [];
-      tremors.push({title: title, mag: mag, time: time, long: long, latt: latt})
+      for ( let i = 0; i < response.features.length; i++ ) {
+        const title = response.features[i].properties.title;
+        const mag = response.features[i].properties.mag;
+        const time = new Date(response.features[i].properties.time);
+        const long = response.features[i].geometry.coordinates[0];
+        const latt = response.features[i].geometry.coordinates[1];
+        tremors.push({num: i, title: title, mag: mag, time: time, long: long, latt: latt})
+      };
       // res.render("json",tremors);
       res.send(tremors);
 
