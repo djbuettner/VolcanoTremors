@@ -33,20 +33,21 @@ router.get('/', function(req, res) {
       console.log(response.features.length);
       */
 
-      let tremors = [];
+      const tremors = [];
       for ( let i = 0; i < response.features.length; i++ ) {
         const title = response.features[i].properties.title;
         const mag = response.features[i].properties.mag;
         const time = new Date(response.features[i].properties.time);
         const long = response.features[i].geometry.coordinates[0];
         const latt = response.features[i].geometry.coordinates[1];
-        tremors.push({num: i, title: title, mag: mag, time: time, long: long, latt: latt})
-      };
-      // res.render("json",tremors);
-      res.send(tremors);
+        tremors.push({num: i, title: title, mag: mag, time: time, long: long, latt: latt});
+      }
+      res.render('json',{ json: tremors } );
+      // res.render('json',{ json: tremors[0] } ); // Worked for on recorde
+      // res.send(tremors); // Worked showing the 100 records
 
       // res.send({title: title, mag: mag, time: time, long: long, latt: latt} ); // Test I see data
-      // res.render("json", {json: {title: title, mag: mag, time: time, long: long, latt: latt} })
+      // res.render('json', {json: {title: title, mag: mag, time: time, long: long, latt: latt} })
 
       // res.send(JSON.stringify( {mag: feat.mag, long: long, latt: latt} ));
       // res.send(response);

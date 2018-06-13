@@ -1,9 +1,10 @@
 doctype
 html
   head
-    title = "Testing Template"
+    title Recent Kilauea Volcano Tremors
   body
-    h1 JSON Object Type
-    h1 Iterating over JSON object & printing name: value
+    h1 Iterating over the JSON Tremor object & printing name: value
     for key, index in json
-        p #{index}:  #{key}
+      p
+      for key2, index2 in key
+        div #{index2}:  #{key2}
