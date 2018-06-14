@@ -11,7 +11,8 @@ router.get('/', function(req, res) {
   // Set up the header parameters for the usgs.gov request for earthquake data
   const options = {
     // Initially, the usgs.gov api gets one day that is used for development
-    uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-05-04&latitude=19.40&longitude=-155.27&maxradiuskm=80',
+    // uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-05-04&latitude=19.40&longitude=-155.27&maxradiuskm=80',
+    uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-07-01&latitude=19.40&longitude=-155.27&maxradiuskm=80',
     headers: {
       'User-Agent': 'Request-Promise'
     },
@@ -35,6 +36,12 @@ router.get('/', function(req, res) {
 
       const tremors = [];
       let recordid = 0;
+			// Define and intialize the tremor magnitude size
+			let magsize = [];
+			for ( let i = 0; i <= 5; i++) {
+				magsize[i] = 0;
+			}
+			// Loop through all the JSON records returned by the USGS API
       for ( let i = 0; i < response.features.length; i++ ) {
         const title = response.features[i].properties.title;
         if ( title.match("Volcano")) {
@@ -44,10 +51,18 @@ router.get('/', function(req, res) {
 					const long = response.features[i].geometry.coordinates[0];
 					const latt = response.features[i].geometry.coordinates[1];
 					tremors.push({num: recordid++, title: title, mag: mag, time: time, long: long, latt: latt});
+					// Make table for range
+					if ( mag >= 5.0 ) {
+						magsize[5]++;
+					} else {
+						magsize[Math.trunc(mag)]++ ;
+					}
         }
       }
-      res.render('json',{ json: tremors } );
-      // res.render('json',{ json: tremors[0] } ); // Worked for on recorde
+			res.send(magsize);
+      // res.render('json',{ json: tremors } );
+
+      // res.render('json',{ json: tremors[0] } ); // Worked for on record
       // res.send(tremors); // Worked showing the 100 records
 
       // res.send({title: title, mag: mag, time: time, long: long, latt: latt} ); // Test I see data
