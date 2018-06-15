@@ -59,7 +59,8 @@ router.get('/', function(req, res) {
 					}
         }
       }
-			res.send(magsize);
+			res.render('tremors', { magsize: magsize } );
+			// res.send(magsize);
       // res.render('json',{ json: tremors } );
 
       // res.render('json',{ json: tremors[0] } ); // Worked for on record

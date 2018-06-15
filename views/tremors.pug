@@ -1,0 +1,16 @@
+doctype
+html
+  head
+    title Recent Kilauea Volcano Tremors
+  body
+    h1 Count of Earthquake Magnitudes since May 3, 2018
+    table(align="center" border=2)
+      thead
+        tr
+          th Magnitude 
+          th Count
+      tbody
+        for value, index in magsize
+          tr 
+            td(align="center") #{index}
+            td(align="right") #{value}
