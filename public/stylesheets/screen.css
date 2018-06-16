@@ -106,6 +106,29 @@ tr td:last-child {
     text-align: right;
   }
 }
-@media only screen and (min-width: 768px) {
-    /* For desktop: */
+@media only screen and (min-width: 1024px) {
+    /* For desktop: changed from 768 to 1024 */
+  body {
+    background-color: yellow;
+  }
+  h1 {
+    color: lightgreen;
+    text-align: center;
+    font-size: 4em;
+  }
+  table, tr, th, td {
+    text-align: center;
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: auto;
+    border: 0.1em solid maroon;
+    padding: 0.1em;
+    font-size: 1.6em;
+  }
+  th {
+    font-weight: bold;
+  }
+  tr td:last-child {
+    text-align: right;
+  }
 }
