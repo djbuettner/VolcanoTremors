@@ -65,7 +65,7 @@ h1 {
   font-size: 2em;
 }
 table, tr, th, td {
-  text-align: auto;
+  text-align: center;
   margin: auto;
   border-collapse: separate;
   border-spacing: auto;
@@ -75,6 +75,9 @@ table, tr, th, td {
 }
 th {
   font-weight: bold;
+}
+tr td:last-child {
+  text-align: right;
 }
 
 @media only screen and (min-width: 600px) {
@@ -88,7 +91,7 @@ th {
     font-size: 3em;
   }
   table, tr, th, td {
-    text-align: auto;
+    text-align: center;
     margin: auto;
     border-collapse: separate;
     border-spacing: auto;
@@ -98,6 +101,9 @@ th {
   }
   th {
     font-weight: bold;
+  }
+  tr td:last-child {
+    text-align: right;
   }
 }
 @media only screen and (min-width: 768px) {

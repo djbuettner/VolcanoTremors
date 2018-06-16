@@ -2,8 +2,6 @@ doctype
 html
   head
     title Recent Kilauea Volcano Tremors
-    // style
-    //   include ../public/stylesheets/screen.css
     link(rel='stylesheet', href='stylesheets/screen.css') 
   body
     h1 Count of Kilauea Earthquake Magnitudes Since May&nbsp3,&nbsp2018
@@ -14,9 +12,7 @@ html
           th Magnitude 
           th Count
       tbody
-        // for value, index in magsize
       - for (var i = 5; i >=0; i-- )
           tr 
-            td(align="center")=maglabel[i]
-            td(align="right")=magsize[i]
-            // td(align="right") #{value}
+            td=maglabel[i]
+            td=magsize[i]
