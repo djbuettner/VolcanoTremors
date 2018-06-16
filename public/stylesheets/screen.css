@@ -56,6 +56,26 @@ table {
 */
 
 /* For mobile phones: */
+body {
+  background-color: lightcyan;
+}
+h1 {
+  color: red;
+  text-align: center;
+  font-size: 2em;
+}
+table, tr, th, td {
+  text-align: auto;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: auto;
+  border: 0.1em solid gray;
+  padding: 0.1em;
+  font-size: 1.1em;
+}
+th {
+  font-weight: bold;
+}
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
