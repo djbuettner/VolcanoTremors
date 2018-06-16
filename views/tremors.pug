@@ -14,7 +14,9 @@ html
           th Magnitude 
           th Count
       tbody
-        for value, index in magsize
+        // for value, index in magsize
+      - for (var i = 5; i >=0; i-- )
           tr 
-            td(align="center")=maglabel[index]
-            td(align="right") #{value}
+            td(align="center")=maglabel[i]
+            td(align="right")=magsize[i]
+            // td(align="right") #{value}
