@@ -39,11 +39,12 @@ router.get('/', function(req, res) {
       // Define and intialize the tremor magnitude size
       let magsize = [];
       let maglabel = [];
-      maglabel[5] = ">= 5.0";
+      maglabel[5] = "mag >= 5.0";
       for ( let i = 0; i <= 5; i++) {
         magsize[i] = 0;
         if ( i !== 5 ) {
-          maglabel[i] = '>= ' + i + '.0 And < ' + (i+1)+ '.0'; 
+          // maglabel[i] = '>= ' + i + '.0 And < ' + (i+1)+ '.0'; 
+          maglabel[i] = i + '.0 <= mag < ' + (i+1)+ '.0'; 
         }
       }
       // Loop through all the JSON records returned by the USGS API

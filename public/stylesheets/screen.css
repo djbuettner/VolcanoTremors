@@ -79,6 +79,26 @@ th {
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
+  body {
+    background-color: lightgrey;
+  }
+  h1 {
+    color: blue;
+    text-align: center;
+    font-size: 3em;
+  }
+  table, tr, th, td {
+    text-align: auto;
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: auto;
+    border: 0.1em solid maroon;
+    padding: 0.1em;
+    font-size: 1.5em;
+  }
+  th {
+    font-weight: bold;
+  }
 }
 @media only screen and (min-width: 768px) {
     /* For desktop: */
