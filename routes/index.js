@@ -12,6 +12,8 @@ router.get('/', function(req, res) {
   const options = {
     // Initially, the usgs.gov api gets one day that is used for development
     // uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-05-04&latitude=19.40&longitude=-155.27&maxradiuskm=80',
+
+    // The URL to get all records around Kilauea since May 3rd to the end of class, July 1st
     uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-07-01&latitude=19.40&longitude=-155.27&maxradiuskm=80',
     headers: {
       'User-Agent': 'Request-Promise'
@@ -21,40 +23,30 @@ router.get('/', function(req, res) {
 
   reqprom(options)
     .then(function(response) {
-      // Created the view 'json.pug' and sending request to render the GitHub API
-      // res.render('json', {json: response.features}); // Testing render & json.pug
+      const tremors = [];  // Array containing the list of properties for one earthquake/record
+      let recordid = 0;    // Record number after filtering for 'Volcano'
+      const magsize = [];  // Define and intialize the tremor magnitude size
 
-      // Getting the specific fields from the first record to establish access to data
-      /* Testing section to get fields
-      const title = response.features[0].properties.title;
-      const mag = response.features[0].properties.mag;
-      const time = new Date(response.features[0].properties.time);
-      const long = response.features[0].geometry.coordinates[0];
-      const latt = response.features[0].geometry.coordinates[1];
-      console.log(response.features.length);
-      */
-
-      const tremors = [];
-      let recordid = 0;
-      // Define and intialize the tremor magnitude size
-      let magsize = [];
-      let maglabel = [];
-      maglabel[5] = "greater than 5.00";
+      // Array containing first column and clearer label and it's setting of values
+      const maglabel = [];
+      maglabel[5] = 'greater than 5.00';
       for ( let i = 0; i <= 5; i++) {
-        magsize[i] = 0;
+        magsize[i] = 0; // Assign the 0-5 magsize array item to zero so ++ works
         if ( i !== 5 ) {
           maglabel[i] = i + ' - ' + i + '.99'; 
         }
       }
       // Loop through all the JSON records returned by the USGS API
       for ( let i = 0; i < response.features.length; i++ ) {
+        // Get the title first and use to filter out the earthquakes not associated with the Volcano
         const title = response.features[i].properties.title;
-        if ( title.match("Volcano")) {
+        if ( title.match('Volcano')) {
           // console.log("Matched on Volcano");
           const mag = response.features[i].properties.mag;
           const time = new Date(response.features[i].properties.time);
           const long = response.features[i].geometry.coordinates[0];
           const latt = response.features[i].geometry.coordinates[1];
+          // Add the new earthquake properties to the tremor array
           tremors.push({num: recordid++, title: title, mag: mag, time: time, long: long, latt: latt});
           // Make table for range
           if ( mag >= 5.0 ) {
@@ -64,19 +56,8 @@ router.get('/', function(req, res) {
           }
         }
       }
+      // Sending the data to view/tremors.pug
       res.render('tremors', { magsize: magsize, maglabel: maglabel } );
-      // res.send(magsize);
-      // res.render('json',{ json: tremors } );
-
-      // res.render('json',{ json: tremors[0] } ); // Worked for on record
-      // res.send(tremors); // Worked showing the 100 records
-
-      // res.send({title: title, mag: mag, time: time, long: long, latt: latt} ); // Test I see data
-      // res.render('json', {json: {title: title, mag: mag, time: time, long: long, latt: latt} })
-
-      // res.send(JSON.stringify( {mag: feat.mag, long: long, latt: latt} ));
-      // res.send(response);
-      // res.render('json', response);
     }
     )
     .catch(function(err) {
