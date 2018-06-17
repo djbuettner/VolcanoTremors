@@ -79,6 +79,12 @@ th {
 tr td:last-child {
   text-align: right;
 }
+div {
+  color: gray;
+  text-align: center;
+  padding: 0.2em;
+  font-size: 0.9em;
+}
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
@@ -105,6 +111,12 @@ tr td:last-child {
   tr td:last-child {
     text-align: right;
   }
+  div {
+    color: black;
+    text-align: center;
+    padding: 0.2em;
+    font-size: 1.5em;
+  }
 }
 @media only screen and (min-width: 1024px) {
     /* For desktop: changed from 768 to 1024 */
@@ -130,5 +142,11 @@ tr td:last-child {
   }
   tr td:last-child {
     text-align: right;
+  }
+  div {
+    color: red;
+    text-align: center;
+    padding: 0.2em;
+    font-size: 1.9em;
   }
 }

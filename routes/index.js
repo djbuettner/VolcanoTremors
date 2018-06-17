@@ -57,7 +57,7 @@ router.get('/', function(req, res) {
         }
       }
       // Sending the data to view/tremors.pug
-      res.render('tremors', { magsize: magsize, maglabel: maglabel } );
+      res.render('tremors', { magsize: magsize, maglabel: maglabel, date: Date() } );
     }
     )
     .catch(function(err) {
