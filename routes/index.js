@@ -29,30 +29,33 @@ router.get('/', function(req, res) {
 
       // Array containing first column and clearer label and it's setting of values
       const maglabel = [];
-      maglabel[5] = 'greater than 5.00';
       for ( let i = 0; i <= 5; i++) {
         magsize[i] = 0; // Assign the 0-5 magsize array item to zero so ++ works
         if ( i !== 5 ) {
-          maglabel[i] = i + ' - ' + i + '.99'; 
+          maglabel[i] = `${ i } - ${ i }.99`; 
+        }
+        else {
+          maglabel[5] = 'greater than 5.00';
         }
       }
       // Loop through all the JSON records returned by the USGS API
       for ( let i = 0; i < response.features.length; i++ ) {
+        let title, mag, time, lngtd, latt;
         // Get the title first and use to filter out the earthquakes not associated with the Volcano
-        const title = response.features[i].properties.title;
+        // const title = response.features[i].properties.title;
+        title = response.features[i].properties.title;
         if ( title.match('Volcano')) {
-          // console.log("Matched on Volcano");
-          const mag = response.features[i].properties.mag;
-          const time = new Date(response.features[i].properties.time);
-          const long = response.features[i].geometry.coordinates[0];
-          const latt = response.features[i].geometry.coordinates[1];
+          mag = response.features[i].properties.mag;
+          time = new Date(response.features[i].properties.time);
+          lngtd = response.features[i].geometry.coordinates[0];
+          latt = response.features[i].geometry.coordinates[1];
           // Add the new earthquake properties to the tremor array
-          tremors.push({num: recordid++, title: title, mag: mag, time: time, long: long, latt: latt});
+          tremors.push({num: recordid++, title: title, mag: mag, time: time, lngtd: lngtd, latt: latt});
           // Make table for range
           if ( mag >= 5.0 ) {
             magsize[5]++;
           } else {
-            magsize[Math.trunc(mag)]++ ;
+            magsize[Math.trunc(mag)]++;
           }
         }
       }
