@@ -6,14 +6,31 @@ html
   body
     h1 Count of Kilauea Earthquake Magnitudes Since May&nbsp3,&nbsp2018
     p <br>
-    table(align="center" border=2)
-      thead
-        tr
-          th Magnitude 
-          th Count
-      tbody
-      - for (var i = 5; i >=0; i-- )
-          tr 
-            td=maglabel[i]
-            td=magsize[i]
     div #{date}
+    p <br>
+    section(id="magnitude" class="ingrid")
+      table(align="center" border=2)
+        thead
+          tr
+            th Magnitude 
+            th Count
+        tbody
+        - for (var i = 5; i >= -1; i-- )
+            tr 
+              td=maglabel[i === -1 ? 6 : i]
+              td=magsize[i === -1 ? 6 : i]
+      p <br>
+    section(id="weekly" class="ingrid")
+      table(align="center" border=2)
+        thead
+          tr
+            th Week Beginning
+            th Count
+        tbody
+        - for (var i = 0; i < weekcnt.length ; i++ )
+            tr 
+              td=weeklabel[i]
+              td=weekcnt[i]
+      p <br>
+    section(id="map" class="mapgrid")
+      img(src='./images/KilaueaMap.png')

@@ -40,6 +40,7 @@ router.get('/', function(req, res) {
       }
       // Loop through all the JSON records returned by the USGS API
       for ( let i = 0; i < response.features.length; i++ ) {
+        // Declare the needed variables
         let title, mag, time, lngtd, latt;
         // Get the title first and use to filter out the earthquakes not associated with the Volcano
         // const title = response.features[i].properties.title;
@@ -59,8 +60,29 @@ router.get('/', function(req, res) {
           }
         }
       }
+      magsize[6] = tremors.length;
+      maglabel[6] = 'TOTAL';
+      
+      // Get weekly counts from beginning date
+      const sdate = Date.parse('May 3, 2018');
+      const sdate2 = new Date(sdate);
+      const wmilli = (7*24*60*60*1000); // Number of milliseconds in a week
+      const weekcnt = [];
+      const weeklabel = [];
+      let weeknum = 0;
+      for( let i = 0; i < tremors.length; i++ ) {
+        let j = Math.trunc( ( Date.parse(tremors[i].time) - sdate) / wmilli );
+        let swkdt = new Date( ( j * wmilli ) + sdate );
+        weekcnt[j] = weekcnt[j] ? ++weekcnt[j] : 1;
+        weeklabel[j] = swkdt.toDateString().replace(/..../, '');
+        // weeklabel[j] = weeklabel[j].replace(/ /g, '&nbsp');
+        weeknum = weeknum < j ? j : weeknum;
+      }
+      weekcnt[ weeknum + 1] = tremors.length;
+      weeklabel[ weeknum + 1] = "TOTAL";
+      
       // Sending the data to view/tremors.pug
-      res.render('tremors', { magsize: magsize, maglabel: maglabel, date: Date() } );
+      res.render('tremors', { magsize: magsize, maglabel: maglabel, date: Date(), weekcnt: weekcnt, weeklabel: weeklabel } );
     }
     )
     .catch(function(err) {
@@ -69,6 +91,12 @@ router.get('/', function(req, res) {
     });
 
   // res.render('index', { title: 'Express' });
+});
+router.post('/', function(req, res) {
+  console.log("Got Here!!");
+  console.log(req.body.magnitude);
+  res.send(req.body);
+  // res.send(JSON.stringify(req.body.form));
 });
 
 module.exports = router;
