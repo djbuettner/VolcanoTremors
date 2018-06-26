@@ -5,6 +5,9 @@ const express = require('express');
 const router = express.Router();
 const reqprom = require('request-promise-native');
 
+const magall = -1;
+const weekall = -1
+
 let magsize = [];  // Define and intialize the tremor magnitude size
 let maglabel = [];
 let weekcnt = [];
@@ -21,18 +24,25 @@ let renderinfo = {
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  fetchtremors(res);
+
+  fetchtremors(res, magall, weekall);
+
 });
 
 router.post('/', function(req, res) {
   console.log("Got Here!!");
   console.log(req.body.magnitude);
-  res.send(req.body);
+  console.log(req.body.week);
+  fetchtremors(res,Number(req.body.magnitude), Number(req.body.week));
+
+  // fetchtremors(res, magall, weekall);
+
+  // res.send(req.body);
   // res.send(JSON.stringify(req.body.form));
 });
 
 
-function fetchtremors (res) {
+function fetchtremors (res, magselect, weekselect) {
   // Set up the header parameters for the usgs.gov request for earthquake data
   const options = {
     // The URL to get all records around Kilauea since May 3rd to the end of class, July 1st
@@ -53,7 +63,11 @@ function fetchtremors (res) {
       const sdate2 = new Date(sdate);
       const wmilli = (7*24*60*60*1000); // Number of milliseconds in a week
       let weeknummax = 0;
-      weekcnt = [];
+      magsize.length = 0;
+      // maglabel.length = 0; // Keep the labels
+      weekcnt.length = 0;
+      // weeklabel.length = 0; // Keep the labels
+      
 
       // Loop through all the JSON records returned by the USGS API
       for ( let i = 0; i < response.features.length; i++ ) {
@@ -73,6 +87,11 @@ function fetchtremors (res) {
           tremors.push({num: recordid++, title: title, mag: mag, time: time, lngtd: lngtd, latt: latt});
           // Make table for range
           magtrunc = Math.trunc(mag);
+          let wknm = Math.trunc( ( Date.parse(time) - sdate) / wmilli );
+          if ( (magselect !== magall && magselect !== magtrunc) || (weekselect !== weekall && weekselect !== wknm) ) {
+            recordid--;
+            continue;
+          }
           if ( magtrunc >= 5.0 ) {
             magsize[5] = magsize[5] ? magsize[5] + 1 : 1;
             maglabel[5] = 'greater than 5.00';
@@ -80,16 +99,15 @@ function fetchtremors (res) {
             magsize[magtrunc] = magsize[magtrunc] ? magsize[magtrunc] + 1 : 1;
             maglabel[magtrunc] = `${ magtrunc } - ${ magtrunc }.99`; 
           }
-          let j = Math.trunc( ( Date.parse(time) - sdate) / wmilli );
-          let swkdt = new Date( ( j * wmilli ) + sdate );
-          weekcnt[j] = weekcnt[j] ? ++weekcnt[j] : 1;
-          weeklabel[j] = swkdt.toDateString().replace(/..../, '');
-          weeknummax = weeknummax < j ? j : weeknummax;
+          let swkdt = new Date( ( wknm * wmilli ) + sdate );
+          weekcnt[wknm] = weekcnt[wknm] ? ++weekcnt[wknm] : 1;
+          weeklabel[wknm] = swkdt.toDateString().replace(/..../, '');
+          weeknummax = weeknummax < wknm ? wknm : weeknummax;
         }
       }
-      magsize[6] = tremors.length;
+      magsize[6] = recordid; // tremors.length;
       maglabel[6] = 'TOTAL';
-      weekcnt[ weeknummax + 1] = tremors.length;
+      weekcnt[ weeknummax + 1] = recordid; // tremors.length;
       weeklabel[ weeknummax + 1] = "TOTAL";
       renderinfo.weekcnt = weekcnt;
       renderinfo.weeklabel = weeklabel;

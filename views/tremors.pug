@@ -18,6 +18,13 @@ html
         option(value="2") 2
         option(value="1") 1
         option(value="0") 0
+      x <br>
+      x Week Selection:&nbsp&nbsp
+      select(name="week")
+        option(value="-1" selected="selected") All
+        - for (var i = 0; i < weekcnt.length - 1; i++ )
+          option(value=i) #{weeklabel[i]}
+      p
       input(type="submit" value="Submit")
     p <br>
     section(id="magnitude" class="ingrid")
