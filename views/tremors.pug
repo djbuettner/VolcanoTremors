@@ -9,7 +9,7 @@ html
     div #{date}
     p
     form(action="/" method="post")
-      x Magnitude selection:&nbsp&nbsp
+      x Magnitude selection:&nbsp;&nbsp;
       select(name="magnitude")
         option(value="-1" selected="selected") All
         option(value="5") 5
@@ -19,11 +19,11 @@ html
         option(value="1") 1
         option(value="0") 0
       p
-      x Week Selection:&nbsp&nbsp
+      x Week Selection:&nbsp;&nbsp;
       select(name="week")
         option(value="-1" selected="selected") All
-        - for (var i = 0; i < weekcnt.length - 1; i++ )
-          option(value=i) #{weeklabel[i]}
+        - for (var i = 0; i < week_count.length - 1; i++ )
+          option(value=i) #{week_label[i]}
       p
       input(type="submit" value="Submit")
     p
@@ -36,8 +36,8 @@ html
         tbody
         - for (var i = 5; i >= -1; i-- )
             tr 
-              td=maglabel[i === -1 ? 6 : i]
-              td=magsize[i === -1 ? 6 : i]
+              td=mag_label[i === -1 ? 6 : i]
+              td=mag_count[i === -1 ? 6 : i]
       p
     section(id="weekly" class="ingrid")
       table(align="center" border=2)
@@ -46,10 +46,10 @@ html
             th Week Beginning
             th Count
         tbody
-        - for (var i = 0; i < weekcnt.length ; i++ )
+        - for (var i = 0; i < week_count.length ; i++ )
             tr 
-              td=weeklabel[i]
-              td=weekcnt[i]
+              td=week_label[i]
+              td=week_count[i]
       p
     section(id="map" class="mapgrid")
       img(src='./images/KilaueaMap.png')
