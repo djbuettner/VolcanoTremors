@@ -1,3 +1,4 @@
+/* stylelint-disable*/
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -43,7 +44,7 @@ table {
   border-spacing: 0;
 }
 /* Ends Eric Meyer reset CSS styles  */
-
+/* stylelint-enable */
 
 /*
   Responsive Design Mode (RDM) defined for
@@ -96,7 +97,8 @@ form {
   font-size: 1.2em;
   text-align: center;
 }
-@media only screen and (min-width: 600px) {
+/* 37.5em is 600px */
+@media only screen and (min-width: 37.5em) {
   /* For tablets: */
   h1 {
     color: red;
@@ -128,7 +130,8 @@ form {
     white-space: nowrap;
   }
 }
-@media only screen and (min-width: 1024px) {
+/* 64em is 1024px */
+@media only screen and (min-width: 64em) {
   /* For desktop: changed from 768 to 1024 */
   h1 {
     color: red;
