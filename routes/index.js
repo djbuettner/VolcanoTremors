@@ -39,7 +39,7 @@ function fetchtremors (res, magselect, weekselect) {
   // Set up the header parameters for the usgs.gov request for earthquake data
   const options = {
     // The URL to get all records around Kilauea since May 3rd to July 4th which is first complete week after end of class
-    uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-07-04&latitude=19.40&longitude=-155.27&maxradiuskm=80',
+    uri: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2018-05-03&endtime=2018-07-01&latitude=19.40&longitude=-155.27&maxradiuskm=80',
     headers: {
       'User-Agent': 'Request-Promise'
     },
